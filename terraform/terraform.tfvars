@@ -17,7 +17,7 @@ app_security_group_id = "sg-0c84b61816a057356"
 create_databases = true
 
 # Controla se o RDS será acessível pela internet (necessário true para o GitHub Actions criar os bancos)
-db_publicly_accessible = false
+db_publicly_accessible = true
 
 # Nomes dos bancos de dados lógicos que serão criados
 db_names = ["api-db", "worker-db"]
