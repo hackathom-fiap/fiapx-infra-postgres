@@ -14,10 +14,10 @@ app_security_group_id = "sg-0c84b61816a057356"
 # --- Configurações de Banco de Dados Lógicos ---
 
 # Flag para habilitar a criação dos bancos. Mude para true APÓS o primeiro deploy (ou se a rede permitir).
-create_databases = false
+create_databases = true
 
 # Controla se o RDS será acessível pela internet (necessário true para o GitHub Actions criar os bancos)
-db_publicly_accessible = true
+db_publicly_accessible = false
 
 # Nomes dos bancos de dados lógicos que serão criados
 db_names = ["api-db", "worker-db"]
