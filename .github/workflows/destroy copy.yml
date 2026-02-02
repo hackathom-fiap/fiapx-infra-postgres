@@ -1,4 +1,4 @@
-name: 'Destroy Postgres'
+name: 'Destroy Postgres -backup'
 
 on:
   workflow_dispatch: # Permite acionamento manual
@@ -53,10 +53,5 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-      - name: Remove logical databases from state
-        run: |
-          # Remove logical databases from state to avoid connection errors during destroy
-          # The RDS instance destruction will take care of the actual data
-          terraform state list | grep "postgresql_database.databases" | xargs -r terraform state rm || true
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -input=false
