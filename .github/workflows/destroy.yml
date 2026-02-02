@@ -46,17 +46,12 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
-          terraform_version: 1.5.7
+          terraform_version: 1.8.5
       - name: Terraform Init
         id: init
         run: terraform init
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
-      - name: Remove logical databases from state
-        run: |
-          # Remove logical databases from state to avoid connection errors during destroy
-          # The RDS instance destruction will take care of the actual data
-          terraform state list | grep "postgresql_database.databases" | xargs -r terraform state rm || true
       - name: Terraform Destroy
         run: terraform destroy -auto-approve -input=false
