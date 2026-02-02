@@ -1,4 +1,4 @@
-name: 'Destroy Postgres'
+name: 'Destroy Postgres -backup'
 
 on:
   workflow_dispatch: # Permite acionamento manual

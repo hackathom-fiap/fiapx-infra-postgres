@@ -1,4 +1,4 @@
-name: 'Destroy EKS Cluster'
+name: 'Destroy Postgres'
 
 on:
   workflow_dispatch: # Permite acionamento manual
