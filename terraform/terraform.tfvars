@@ -9,12 +9,12 @@ vpc_id = "vpc-8ce247f1"
 private_subnet_ids = ["subnet-c3f47da5", "subnet-8a652684"]
 
 # ID do Security Group da sua aplicação. O banco de dados permitirá conexões de entrada a partir deste grupo na porta 5432.
-app_security_group_id = "sg-0c84b61816a057356"
+app_security_group_id = "sg-05c09c7ac8241bf50"
 
 # --- Configurações de Banco de Dados Lógicos ---
 
 # Flag para habilitar a criação dos bancos. Mude para true APÓS o primeiro deploy (ou se a rede permitir).
-create_databases = true
+create_databases = false
 
 # Controla se o RDS será acessível pela internet (necessário true para o GitHub Actions criar os bancos)
 db_publicly_accessible = true
