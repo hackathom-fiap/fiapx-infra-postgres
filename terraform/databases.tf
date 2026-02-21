@@ -4,39 +4,22 @@ locals {
   master_user_secret_arn = try(aws_db_instance.default.master_user_secret[0].secret_arn, null)
 }
 
-# Data Sources para recuperar a senha gerenciada pelo RDS no Secrets Manager
-# A execução desses data sources é condicionada à existência do ARN do segredo.
-data "aws_secretsmanager_secret" "db_pass" {
-  count = local.master_user_secret_arn != null ? 1 : 0
-  arn   = local.master_user_secret_arn
-}
-
+# Data Source para recuperar a versão do segredo gerenciado pelo RDS no Secrets Manager
+# A execução deste data source é condicionada à existência do ARN do segredo.
 data "aws_secretsmanager_secret_version" "db_pass_val" {
   count     = local.master_user_secret_arn != null ? 1 : 0
-  secret_id = data.aws_secretsmanager_secret.db_pass[0].id
+  secret_id = local.master_user_secret_arn
 }
 
-# Configuração do Provider PostgreSQL
-# Usa a senha recuperada do Secrets Manager para autenticar.
-# A senha será nula se o segredo não for encontrado, impedindo a conexão.
-provider "postgresql" {
-  host            = aws_db_instance.default.address
-  port            = 5432
-  database        = "postgres"
-  username        = aws_db_instance.default.username
-  password        = local.master_user_secret_arn != null ? jsondecode(data.aws_secretsmanager_secret_version.db_pass_val[0].secret_string)["password"] : null
-  superuser       = false
-  sslmode         = "require"
-  connect_timeout = 15
-}
+# Cria os bancos de dados lógicos usando um módulo condicional.
+# Isso quebra o ciclo de dependência do provedor, pois o módulo só é instanciado
+# após o segredo do banco de dados principal ter sido criado.
+module "postgres_databases" {
+  source = "./modules/postgres_db_creator"
+  count  = var.create_databases && local.master_user_secret_arn != null ? 1 : 0
 
-# Criação dos Bancos de Dados Lógicos
-# A criação só é tentada se a variável 'create_databases' for verdadeira e o segredo existir.
-resource "postgresql_database" "databases" {
-  for_each = var.create_databases && local.master_user_secret_arn != null ? var.db_names : toset([])
-
-  name              = each.key
-  owner             = "postgresadmin"
-  connection_limit  = -1
-  allow_connections = true
+  host     = aws_db_instance.default.address
+  username = aws_db_instance.default.username
+  password = jsondecode(data.aws_secretsmanager_secret_version.db_pass_val[0].secret_string)["password"]
+  db_names = var.db_names
 }
