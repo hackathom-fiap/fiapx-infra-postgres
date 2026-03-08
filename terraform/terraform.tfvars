@@ -9,7 +9,7 @@ vpc_id = "vpc-8ce247f1"
 private_subnet_ids = ["subnet-c3f47da5", "subnet-8a652684"]
 
 # ID do Security Group da sua aplicação. O banco de dados permitirá conexões de entrada a partir deste grupo na porta 5432.
-app_security_group_id = "sg-05c09c7ac8241bf50"
+app_security_group_id = "sg-0a8d872ed21fea014" # Substitua pelo ID do Security Group node
 
 # --- Configurações de Banco de Dados Lógicos ---
 
