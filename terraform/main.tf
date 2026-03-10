@@ -63,7 +63,7 @@ resource "aws_db_instance" "default" {
 
   # Esta é a abordagem mais segura e recomendada.
 
-  manage_master_user_password = false # Gerenciar a senha via Terraform
+
   username                    = "postgresadmin" # Você pode customizar o nome de usuário
   password                    = "fiapxRootPass123" # Senha gerenciada via Terraform
   db_name                     = "postgres"      # Banco de dados inicial padrão
