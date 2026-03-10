@@ -20,7 +20,7 @@ create_databases = true
 db_publicly_accessible = true
 
 # Nomes dos bancos de dados lógicos que serão criados
-db_names = ["api-db", "worker-db"]
+db_names = ["api-db", "worker-db", "auth_db"]
 
 # IPs permitidos para conexão (0.0.0.0/0 libera para a internet para o GitHub Actions conectar)
 db_allowed_cidr_blocks = ["0.0.0.0/0"]
