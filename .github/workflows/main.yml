@@ -31,7 +31,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           #role-to-assume: ${{ secrets.AWS_ROLE_TO_ASSUME }}
-          role-to-assume: arn:aws:iam::239409137076:role/role-eks-fiap
+          role-to-assume: arn:aws:iam::239409137076:role/github-actions
           aws-region: us-east-1
           audience: sts.amazonaws.com
 
